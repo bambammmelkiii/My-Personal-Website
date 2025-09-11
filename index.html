@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>R.B.G. - Portfolio 2025</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --secondary: #ff6584;
+      --dark: #222;
+      --light: #f8f9fa;
+      --gradient: linear-gradient(135deg, #6c63ff, #ff6584);
+      --radius: 1rem;
+      --shadow: 0 8px 20px rgba(0,0,0,0.12);
+      --bg-dark: radial-gradient(ellipse, #1b2735 0%, #090a0f 100%);
+      --bg-light: #f6f8fa;
+      --text-dark: #222;
+      --text-light: #f8f9fa;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: var(--bg-light);
+      --text-primary: var(--text-dark);
+      --card-bg: #ffffff;
+      --border-color: #dee2e6;
+      --muted-color: #6c757d;
+      --skill-bar-bg: #e9ecef;
+      --table-head-bg: #f8f9fa;
+      --table-striped-bg: rgba(34, 34, 34, 0.05);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: var(--bg-dark);
+      --text-primary: var(--text-light);
+      --card-bg: #2a2a3a;
+      --border-color: #495057;
+      --muted-color: #adb5bd;
+      --skill-bar-bg: #3e3e52;
+      --table-head-bg: #343a40;
+      --table-striped-bg: rgba(248, 249, 250, 0.05);
+      
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    .text-muted {
+      color: var(--muted-color) !important;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-weight: 700;
+    }
+
+    /* Scroll Progress */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 4px;
+      background: transparent;
+      z-index: 1000;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--gradient);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Loading Animation */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(108, 99, 255, 0.2);
+      border-radius: 50%;
+      border-top: 5px solid var(--primary);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 99;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg);
+    }
+
+    /* Back to Top */
+    .back-to-top {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--gradient);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================
+       Navbar
+    ========================= */
+    .navbar {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      padding: 0.75rem 1rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+
+    .logo-text {
+      font-family: "Dancing Script", cursive;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      transition: color 0.3s;
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gradient);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 21px;
+    }
+
+    .hamburger .bar {
+      height: 3px;
+      width: 100%;
+      background: var(--text-primary);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    /* =========================
+       Hero Section
+    ========================= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: transparent;
+      position: relative;
+      overflow: hidden;
+      padding-top: 76px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .typed-cursor {
+      opacity: 1;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .hero-buttons .btn {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .hero-buttons .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Floating Emojis */
+    .floating-elements {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+
+    .floating-element {
+      position: absolute;
+      font-size: 3rem;
+      animation: float 6s ease-in-out infinite;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+    }
+
+    .element-1 { top: 0; right: 20%; animation-delay: 0s; }
+    .element-2 { top: 30%; right: 70%; animation-delay: 2s; }
+    .element-3 { bottom: 0; right: 40%; animation-delay: 4s; }
+    .element-4 { top: 50%; right: 10%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(5deg); }
+      66% { transform: translateY(10px) rotate(-5deg); }
+    }
+
+    /* =========================
+       About Section
+    ========================= */
+    .about {
+      padding: 5rem 0;
+    }
+
+    .profile-frame {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .profile-frame:hover {
+      transform: scale(1.03);
+    }
+
+    .profile-photo {
+      border-radius: var(--radius);
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .profile-frame:hover .profile-photo {
+      transform: scale(1.1);
+    }
+
+    .skill-tag {
+      background: rgba(108, 99, 255, 0.1);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius);
+      margin: 0.2rem;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+      color: var(--text-primary);
+      border: 1px solid transparent;
+    }
+
+    .skill-tag:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Animated Skill Bars */
+    .skill-bar {
+      height: 8px;
+      border-radius: 10px;
+      background: var(--skill-bar-bg);
+      margin: 0.5rem 0 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .skill-progress {
+      height: 100%;
+      border-radius: 10px;
+      background: var(--gradient);
+      width: 0;
+      transition: width 1.5s ease-in-out;
+    }
+
+    /* =========================
+       Portfolio / Cards
+    ========================= */
+    .card {
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .audio-player {
+      border-radius: var(--radius);
+    }
+
+    /* Image Hover Effect */
+    .card-img-container {
+      overflow: hidden;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .card-img-top {
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-img-top {
+      transform: scale(1.1);
+    }
+
+    /* =========================
+       Schedule Table
+    ========================= */
+    .table {
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+    .table-bordered th,
+    .table-bordered td {
+        border-color: var(--border-color);
+    }
+    .table > :not(caption) > * > * {
+        background-color: transparent; /* Reset Bootstrap's bg color */
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: var(--table-striped-bg);
+    }
+    thead.table-light {
+        background-color: var(--table-head-bg);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+    .table td[colspan="5"] {
+        background-color: var(--card-bg);
+    }
+
+    /* =========================
+       Section Titles
+    ========================= */
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--gradient);
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* =========================
+       Contact Form
+    ========================= */
+    .contact-form input,
+    .contact-form textarea {
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(108,99,255,0.25);
+      transform: translateY(-3px);
+    }
+
+    /* Form validation styles */
+    .form-group {
+      position: relative;
+    }
+
+    .error-message {
+      color: #ff6584;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .form-group.error .error-message {
+      display: block;
+    }
+
+    .form-group.error input,
+    .form-group.error textarea {
+      border-color: #ff6584;
+    }
+
+    .form-group.success input,
+    .form-group.success textarea {
+      border-color: #4caf50;
+    }
+
+    /* =========================
+       Footer
+    ========================= */
+    .footer {
+      font-size: 0.9rem;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      transition: background 0.3s ease;
+    }
+
+    .social-link {
+      color: white;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--secondary);
+      transform: translateY(-5px);
+    }
+
+    /* ===== Galaxy Background ===== */
+    #galaxy-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .nav-menu {
+        position: fixed;
+        top: 76px;
+        right: -100%;
+        flex-direction: column;
+        background: var(--card-bg);
+        width: 80%;
+        height: calc(100vh - 76px);
+        padding: 2rem;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      }
+      
+      .nav-menu.active {
+        right: 0;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      
+      .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .floating-elements {
+        display: none;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+
+    /* Animation Classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="myProgressBar"></div>
+  </div>
+
+  <div class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <canvas id="galaxy-bg"></canvas>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <div class="nav-logo">
+        <a href="#home" class="logo-text">RG</a>
+      </div>
+      <ul class="nav-menu d-flex gap-3 list-unstyled mb-0">
+        <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="#favorites" class="nav-link">Favorites</a></li>
+        <li class="nav-item"><a href="#video" class="nav-link">Video</a></li>
+        <li class="nav-item"><a href="#school" class="nav-link">School</a></li>
+        <li class="nav-item"><a href="#schedule" class="nav-link">Schedule</a></li>
+        <li class="nav-item"><a href="#project" class="nav-link">Project</a></li>
+        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="hamburger d-lg-none">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-container container">
+        <div class="hero-content">
+          <h1 class="hero-title"><span class="gradient-text" id="typed"></span></h1>
+          <p class="hero-subtitle">Bachelor of Science in Information and Technology</p>
+          <p class="hero-description">Welcome To My Personal Webpage! Enjoy!</p>
+          <div class="hero-buttons d-flex gap-2 flex-wrap">
+            <a href="#favorites" class="btn btn-primary">View Favorites</a>
+            <a href="#contact" class="btn btn-outline-primary">Get In Touch</a>
+          </div>
+        </div>
+
+        <div class="hero-visual d-flex align-items-center justify-content-center position-relative">
+          <div class="floating-elements">
+            <div class="floating-element element-1">✨</div>
+            <div class="floating-element element-2">💖</div>
+            <div class="floating-element element-3">🌟</div>
+            <div class="floating-element element-4">🎨</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about py-5">
+      <div class="container">
+        <h2 class="section-title">About</h2>
+        <div class="about-content row align-items-center gy-4">
+          <div class="about-text col-lg-7">
+            <p>I am Regine Bacus Gella, Graduated at Panabo City National High School Batch 2023-2024. Now, a dedicated student currently pursuing a Bachelor of Science in Information Technology (BSIT) at ACES Polytechnic College Incorporated. I have a strong interest in technology, innovation, and digital solutions, with a passion for learning new skills that will help me grow in the field of IT.</p>
+            <p>My academic journey is focused on building a solid foundation in programming, systems analysis, database management, and network administration. I am eager to apply my knowledge to real-world applications and continuously enhance my technical and problem-solving skills.</p>
+            <p>Beyond academics, I am motivated, adaptable, and goal-driven, with the ability to work both independently and collaboratively. My long-term aspiration is to become a competent IT professional who contributes to technological advancements and creates impactful solutions for businesses and communities.</p>
+
+            <div class="skills mt-4">
+              <h3>Hobbies & Interests</h3>
+              <div class="skill-item mt-3">
+                <div class="d-flex justify-content-between">
+                  <span>Singing</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="85%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item mt-3">
+                <div class="d-flex justify-content-between">
+                  <span>Dancing</span>
+                  <span>75%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="75%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item mt-3">
+                <div class="d-flex justify-content-between">
+                  <span>Editing</span>
+                  <span>80%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-image col-lg-5 d-flex justify-content-center">
+            <div class="profile-frame shadow-sm fade-in">
+              <img src="pic.jpg" alt="Regine Gella" class="profile-photo img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="favorites" class="portfolio py-5">
+      <div class="container">
+        <h2 class="section-title">Favorites</h2>
+        <div class="portfolio-grid row gy-4">
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm">
+              <div class="card-img-container">
+                <img src="bestpart.jpg" alt="Best Part" class="card-img-top">
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5">Favorite Music</h3>
+                <p class="text-muted mb-2">Best Part by Daniel Caesar.</p>
+                <p class="mb-2">If you are a movie then you are the Best Part. <i class="fas fa-heart text-danger"></i></p>
+
+                <div class="audio-wrapper mt-auto">
+                  <audio controls class="audio-player w-100" id="audio-bestpart" preload="none">
+                    <source src="H.E.R. - Best Part (Lyrics) Ft. Daniel Caesar.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm">
+              <div class="card-img-container">
+                <img src="game.jpg" alt="Valorant" class="card-img-top">
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5">Favorite Game</h3>
+                <p class="text-muted mb-2">Valorant</p>
+                <p class="mb-0">"Search for the good in all things. If there is none to be found, then act decisively, violently."</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm">
+              <div class="card-img-container">
+                <img src="tangled.jpeg" alt="Tangled" class="card-img-top">
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="h5">Favorite Movie</h3>
+                <p class="text-muted mb-2">Tangled</p>
+                <p class="mb-0">Tangled explores deeper meanings related to discovering your true self, breaking free from controlling relationships, and the power of love and courage.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="video" class="video py-5 bg-transparent">
+      <div class="container">
+        <h2 class="section-title">Video</h2>
+
+        <div class="card shadow-sm fade-in">
+          <div class="card-body p-3 p-md-4">
+            <div class="ratio ratio-16x9">
+              <video controls id="main-video" class="w-100" preload="metadata" poster="">
+                <source src="d4vd - Here With Me [Official Music Video].mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <p class="mt-3 mb-0 text-muted small">Music video — use the controls to play/pause. Adjust volume with your device controls.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="school" class="school py-5">
+      <div class="container">
+        <h2 class="section-title">School</h2>
+
+        <div class="portfolio-grid row gy-4">
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center p-3">
+              <div class="card-img-container">
+                <img src="Panabo-Central-Elementary-School.jpg" alt="Panabo Elementary" class="card-img-top">
+              </div>
+              <h3 class="h6 mt-3">Panabo Central Elementary School SPED Center</h3>
+              <p class="text-muted mb-0">Batch 2011-2017</p>
+            </div>
+          </div>
+
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center p-3">
+              <div class="card-img-container">
+                <img src="images.png" alt="High School" class="card-img-top">
+              </div>
+              <h3 class="h6 mt-3">Panabo City National High School</h3>
+              <p class="text-muted mb-0">Batch 2017-2023</p>
+            </div>
+          </div>
+
+          <div class="portfolio-item col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center p-3">
+              <div class="card-img-container">
+                <img src="aces.png" alt="ACES Polytechnic" class="card-img-top">
+              </div>
+              <h3 class="h6 mt-3">Aces Polytechnic College Incorporated</h3>
+              <p class="text-muted mb-0">Undergraduate Batch 2024-2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule" class="schedule py-5 bg-transparent">
+      <div class="container">
+        <h2 class="section-title">Schedule</h2>
+
+        <div class="card shadow-sm fade-in">
+          <div class="card-body p-3 p-md-4">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Time</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>10:00 AM - 12:00 PM</td>
+                    <td>Web System and Technology 1</td>
+                    <td>Web System and Technology 1</td>
+                  </tr>
+                  <tr>
+                    <td>12:00 PM</td>
+                    <td colspan="5" class="text-center">Lunch Break</td>
+                  </tr>
+                  <tr>
+                    <td>1:00 PM - 3:00 PM</td>
+                    <td>Am Eng 3 (Advanced)</td>
+                    <td>Am Eng 3 (Advanced)</td>
+                  </tr>
+                  <tr>
+                    <td>3:00 PM - 5:00 PM</td>
+                    <td>Intro to HCI</td>
+                    <td>Intro to HCI</td>
+                  </tr>
+                  <tr>
+                    <td>5:30 PM - 7:30 PM</td>
+                    <td>DSA</td>
+                    <td>DSA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <small class="text-muted">You can easily edit the table rows/columns to match your real schedule.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="project" class="project py-5">
+      <div class="container">
+        <h2 class="section-title">Project</h2>
+
+        <div class="portfolio-grid row">
+          <div class="portfolio-item col-md-6 fade-in">
+            <div class="card h-100 shadow-sm p-3">
+              <div class="card-img-container mb-3">
+                <div class="placeholder-box mx-auto mb-3">
+                </div>
+                <div class="mt-3">
+                  <a href="file:///D:/ONE%20DRIVE/OneDrive/Desktop/Activity%204/index.html" target="_blank">
+                    <img src="2.png" alt="My Project" class="card-img-top">
+                  </a>
+                </div>
+                <h3 class="h6">Schedule</h3>
+              <p class="text-muted">A web development project that cn create your own schedule.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-item col-md-6 fade-in">
+            <div class="card h-100 shadow-sm p-3">
+              <div class="card-img-container mb-3">
+                <a href="D:/ONE%20DRIVE/OneDrive/Desktop/activity%202%20mid/index.html" target="_blank">
+                  <img src="screenshot.png" alt="My Project" class="card-img-top">
+                </a>
+              </div>
+              <h3 class="h6">ChatGPT Project</h3>
+              <p class="text-muted">A web development project created with assistance from ChatGPT.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact py-5 bg-transparent">
+      <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+
+        <div class="contact-content row gy-4">
+          <div class="contact-info col-md-5 fade-in">
+            <h3>Let's talk More!</h3>
+            <p>Feel free to send feedbacks about on my Personal Webpage.</p>
+
+            <div class="contact-details">
+              <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <i class="fas fa-envelope"></i>
+                <span>rreginegella@gmail.com</span>
+              </div>
+              <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <i class="fas fa-phone"></i>
+                <span>09063314054</span>
+              </div>
+              <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Carmen, Davao del Norte</span>
+              </div>
+
+              <div class="map-embed mt-3">
+                <iframe
+                   src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d989.3099294101938!2d125.6919051211835!3d7.326950495159121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1756139155787!5m2!1sen!2sph"
+                   width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form col-md-7 fade-in" id="contactForm">
+            <div class="form-group mb-3">
+              <input type="text" id="name" name="name" placeholder="Your Name" required class="form-control">
+              <div class="error-message">Please enter your name</div>
+            </div>
+            <div class="form-group mb-3">
+              <input type="email" id="email" name="email" placeholder="Your Email" required class="form-control">
+              <div class="error-message">Please enter a valid email</div>
+            </div>
+            <div class="form-group mb-3">
+              <textarea id="message" name="message" placeholder="Your Message" rows="5" required class="form-control"></textarea>
+              <div class="error-message">Please enter your message</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer py-3">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <p class="mb-0">© 2025 Regine Gella. All rights reserved.</p>
+      <div class="social-links d-flex gap-2">
+        <a href="https://www.facebook.com/regine.gella.988" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+        <a href="https://discord.com/channels/@me" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
+        <a href="https://www.instagram.com/wussup_riri3" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Wait for page to load
+    window.addEventListener('load', () => {
+      // Hide loading animation
+      document.getElementById('loading').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 500);
+      
+      // Initialize all animations and features
+      initApp();
+    });
+
+    function initApp() {
+      // Typing animation
+      const typedElement = document.getElementById('typed');
+      const texts = ["Regine Gella", "A BSIT Student", "A Future Developer"];
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typingDelay = 100;
+      
+      function type() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+          // Remove characters
+          typedElement.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+          typingDelay = 50;
+        } else {
+          // Add characters
+          typedElement.textContent = currentText.substring(0, charIndex + 1);
+          charIndex++;
+          typingDelay = 100;
+        }
+        
+        // Determine next action
+        if (!isDeleting && charIndex === currentText.length) {
+          isDeleting = true;
+          typingDelay = 1000; // Pause at end of text
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          typingDelay = 500;
+        }
+        
+        setTimeout(type, typingDelay);
+      }
+      
+      // Start typing animation
+      setTimeout(type, 1000);
+      
+      // Scroll progress bar
+      window.onscroll = function() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("myProgressBar").style.width = scrolled + "%";
+        
+        // Show/hide back to top button
+        if (winScroll > 300) {
+          document.getElementById('backToTop').classList.add('active');
+        } else {
+          document.getElementById('backToTop').classList.remove('active');
+        }
+        
+        // Active nav link based on scroll position
+        setActiveNavLink();
+        
+        // Animate elements on scroll
+        animateOnScroll();
+      };
+      
+      // Back to top functionality
+      document.getElementById('backToTop').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+      
+      // Check for saved theme preference or respect OS preference
+      const savedTheme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+      
+      function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+          themeIcon.className = 'fas fa-sun';
+        } else {
+          themeIcon.className = 'fas fa-moon';
+        }
+      }
+      
+      // Mobile menu toggle
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('.nav-menu');
+      
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+      
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+      
+      // Form validation
+      const contactForm = document.getElementById('contactForm');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isValid = true;
+        
+        // Validate name
+        const nameInput = document.getElementById('name');
+        if (!nameInput.value.trim()) {
+          nameInput.parentElement.classList.add('error');
+          isValid = false;
+        } else {
+          nameInput.parentElement.classList.remove('error');
+          nameInput.parentElement.classList.add('success');
+        }
+        
+        // Validate email
+        const emailInput = document.getElementById('email');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
+          emailInput.parentElement.classList.add('error');
+          isValid = false;
+        } else {
+          emailInput.parentElement.classList.remove('error');
+          emailInput.parentElement.classList.add('success');
+        }
+        
+        // Validate message
+        const messageInput = document.getElementById('message');
+        if (!messageInput.value.trim()) {
+          messageInput.parentElement.classList.add('error');
+          isValid = false;
+        } else {
+          messageInput.parentElement.classList.remove('error');
+          messageInput.parentElement.classList.add('success');
+        }
+        
+        if (isValid) {
+          // In a real application, you would send the form data to a server here
+          alert('Thank you for your message! I will get back to you soon.');
+          contactForm.reset();
+          
+          // Remove success classes after a delay
+          setTimeout(() => {
+            document.querySelectorAll('.form-group').forEach(group => {
+              group.classList.remove('success');
+            });
+          }, 3000);
+        }
+      });
+      
+      // Initialize skill bar animations
+      function animateSkillBars() {
+        document.querySelectorAll('.skill-progress').forEach(bar => {
+          bar.style.width = bar.getAttribute('data-width');
+        });
+      }
+      
+      // Initialize intersection observer for animations
+      function animateOnScroll() {
+        document.querySelectorAll('.fade-in').forEach(element => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+          
+          if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add('appear');
+            
+            // Animate skill bars when about section is in view
+            if (element.closest('#about')) {
+              animateSkillBars();
+            }
+          }
+        });
+      }
+      
+      // Set active navigation link based on scroll position
+      function setActiveNavLink() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          
+          if (window.scrollY >= sectionTop - 100) {
+            currentSection = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Play only one audio at a time
+      const audios = document.querySelectorAll('audio');
+      audios.forEach(audio => {
+        audio.addEventListener('play', () => {
+          audios.forEach(other => {
+            if (other !== audio && !other.paused) other.pause();
+          });
+        });
+      });
+      
+      // Initialize animations on page load
+      animateOnScroll();
+      
+      // ===== Galaxy Background Animation =====
+      const canvas = document.getElementById('galaxy-bg');
+      const ctx = canvas.getContext('2d');
+      let stars = [], asteroids = [];
+      
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      
+      // Create stars
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          speed: Math.random() * 0.5 + 0.2
+        });
+      }
+      
+      // Create asteroids
+      for (let i = 0; i < 5; i++) {
+        asteroids.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 20 + 10,
+          dx: Math.random() * 2 - 1,
+          dy: Math.random() * 2 - 1
+        });
+      }
+      
+      function drawGalaxy() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Stars
+        ctx.fillStyle = "white";
+        stars.forEach(star => {
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fill();
+          star.y += star.speed;
+          if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+          }
+        });
+        
+        // Asteroids
+        ctx.fillStyle = "rgba(200,200,200,0.7)";
+        asteroids.forEach(ast => {
+          ctx.beginPath();
+          ctx.arc(ast.x, ast.y, ast.r, 0, Math.PI * 2);
+          ctx.fill();
+          ast.x += ast.dx;
+          ast.y += ast.dy;
+          
+          if (ast.x < -50) ast.x = canvas.width + 50;
+          if (ast.x > canvas.width + 50) ast.x = -50;
+          if (ast.y < -50) ast.y = canvas.height + 50;
+          if (ast.y > canvas.height + 50) ast.y = -50;
+        });
+        
+        requestAnimationFrame(drawGalaxy);
+      }
+      
+      drawGalaxy();
+    }
+
+
+  // This script will make the canvas background and main text color update when dark mode is toggled.
+  // It works with your existing theme toggle and variable system.
+
+  function setGalaxyBgTheme(theme) {
+    const galaxyBg = document.getElementById('galaxy-bg');
+    if (!galaxyBg) return;
+    if (theme === 'dark') {
+      galaxyBg.style.background = 'radial-gradient(ellipse, #1b2735 0%, #090a0f 100%)';
+    } else {
+      galaxyBg.style.background = '#f6f8fa';
+    }
+  }
+
+  function setMainTextColors(theme) {
+    // Most text colors are set by CSS variables. But ensure special elements follow the theme.
+    document.querySelectorAll('.hero-title, .section-title, .hero-subtitle, .hero-description').forEach(el => {
+      el.style.color = theme === 'dark' ? '#f8f9fa' : '#222';
+    });
+    // You can add more selectors here if you want more elements to be updated.
+  }
+
+  // Initial setup
+  (function() {
+    const theme =
+      localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setGalaxyBgTheme(theme);
+    setMainTextColors(theme);
+  })();
+
+  // Listen for theme changes (works with your theme toggle)
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    const theme =
+      document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    setTimeout(function() {
+      setGalaxyBgTheme(theme);
+      setMainTextColors(theme);
+    }, 10); // slight delay to allow data-theme to update
+  });
+
+  // Also listen for storage changes (if theme changes in another tab)
+  window.addEventListener('storage', function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    setGalaxyBgTheme(theme);
+    setMainTextColors(theme);
+  });
+
+   function setGalaxyBgTheme(theme) {
+    const galaxyBg = document.getElementById('galaxy-bg');
+    if (!galaxyBg) return;
+    if (theme === 'dark') {
+      galaxyBg.style.background = 'radial-gradient(ellipse, #1b2735 0%, #090a0f 100%)';
+    } else {
+      galaxyBg.style.background = '#f6f8fa';
+    }
+  }
+
+  // Initial setup
+  (function() {
+    const theme =
+      localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setGalaxyBgTheme(theme);
+  })();
+
+  // Listen for theme changes via your toggle button
+  document.getElementById('themeToggle').addEventListener('click', function() {
+    setTimeout(function() {
+      const theme =
+        document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      setGalaxyBgTheme(theme);
+    }, 10); // Slight delay to allow data-theme to update
+  });
+
+  // Listen for storage changes (if theme is changed in another tab)
+  window.addEventListener('storage', function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    setGalaxyBgTheme(theme);
+  });
+
+  </script>
+</body>
+</html>
