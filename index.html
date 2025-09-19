@@ -412,6 +412,18 @@
       background-color: #f8f9fa; /* Fallback background if image doesn't load */
     }
 
+    /* School section images - restored to original sizes */
+    .school .card-img-container {
+      height: auto; /* Restore original height */
+      display: block; /* Remove flexbox */
+    }
+
+    .school .card-img-top {
+      width: 100%;
+      height: auto; /* Restore original aspect ratio */
+      object-fit: contain; /* Show full image without cropping */
+    }
+
     .card-img-top {
       transition: transform 0.5s ease;
       width: 100%;
@@ -612,6 +624,11 @@
       
       .profile-photo {
         height: 300px;
+      }
+      
+      /* School images on mobile */
+      .school .card-img-container {
+        height: auto;
       }
     }
 
@@ -1323,7 +1340,7 @@
       for (let i = 0; i < 5; i++) {
         asteroids.push({
           x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+          y: Math.random()极
           r: Math.random() * 20 + 10,
           dx: Math.random() * 2 - 1,
           dy: Math.random() * 2 - 1
@@ -1357,6 +1374,7 @@
           
           if (ast.x < -50) ast.x = canvas.width + 50;
           if (ast.x > canvas.width + 50) ast.x = -50;
+         极
           if (ast.y < -50) ast.y = canvas.height + 50;
           if (ast.y > canvas.height + 50) ast.y = -50;
         });
@@ -1404,12 +1422,13 @@
       document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     setTimeout(function() {
       setGalaxyBgTheme(theme);
+     极
       setMainTextColors(theme);
     }, 10); // slight delay to allow data-theme to update
   });
 
   // Also listen for storage changes (if theme changes in another tab)
-  window.addEventListener('storage', function() {
+  window.addEventListener极('storage', function() {
     const theme = localStorage.getItem('theme') || 'light';
     setGalaxyBgTheme(theme);
     setMainTextColors(theme);
@@ -1442,7 +1461,7 @@
     }, 10); // Slight delay to allow data-theme to update
   });
 
-  // Listen for storage changes (if theme is changed in another tab)
+  // Listen for storage changes (极if theme is changed in another tab)
   window.addEventListener('storage', function() {
     const theme = localStorage.getItem('theme') || 'light';
     setGalaxyBgTheme(theme);
