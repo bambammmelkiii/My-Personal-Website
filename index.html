@@ -321,6 +321,8 @@
       overflow: hidden;
       box-shadow: var(--shadow);
       transition: transform 0.3s ease;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     .profile-frame:hover {
@@ -330,6 +332,7 @@
     .profile-photo {
       border-radius: var(--radius);
       width: 100%;
+      height: 400px;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
@@ -386,6 +389,7 @@
       background: var(--card-bg);
       color: var(--text-primary);
       overflow: hidden;
+      height: 100%;
     }
 
     .card:hover {
@@ -401,10 +405,14 @@
     .card-img-container {
       overflow: hidden;
       border-radius: var(--radius) var(--radius) 0 0;
+      height: 250px;
     }
 
     .card-img-top {
       transition: transform 0.5s ease;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .card:hover .card-img-top {
@@ -593,6 +601,14 @@
       .section-title {
         font-size: 2rem;
       }
+      
+      .card-img-container {
+        height: 200px;
+      }
+      
+      .profile-photo {
+        height: 300px;
+      }
     }
 
     /* Animation Classes */
@@ -605,6 +621,34 @@
     .fade-in.appear {
       opacity: 1;
       transform: translateY(0);
+    }
+    
+    /* NEW: Consistent card body styling */
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .card-content {
+      flex-grow: 1;
+    }
+    
+    /* NEW: Consistent section padding */
+    .section-padding {
+      padding: 5rem 0;
+    }
+    
+    /* NEW: Consistent image containers */
+    .img-container {
+      height: 250px;
+      overflow: hidden;
+    }
+    
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -650,34 +694,36 @@
   </nav>
 
   <main>
-    <section id="home" class="hero">
-      <div class="hero-container container">
-        <div class="hero-content">
-          <h1 class="hero-title"><span class="gradient-text" id="typed"></span></h1>
-          <p class="hero-subtitle">Bachelor of Science in Information and Technology</p>
-          <p class="hero-description">Welcome To My Personal Webpage! Enjoy!</p>
-          <div class="hero-buttons d-flex gap-2 flex-wrap">
-            <a href="#favorites" class="btn btn-primary">View Favorites</a>
-            <a href="#contact" class="btn btn-outline-primary">Get In Touch</a>
+    <section id="home" class="hero section-padding">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <h1 class="hero-title"><span class="gradient-text" id="typed"></span></h1>
+            <p class="hero-subtitle">Bachelor of Science in Information and Technology</p>
+            <p class="hero-description">Welcome To My Personal Webpage! Enjoy!</p>
+            <div class="hero-buttons d-flex gap-2 flex-wrap">
+              <a href="#favorites" class="btn btn-primary">View Favorites</a>
+              <a href="#contact" class="btn btn-outline-primary">Get In Touch</a>
+            </div>
           </div>
-        </div>
 
-        <div class="hero-visual d-flex align-items-center justify-content-center position-relative">
-          <div class="floating-elements">
-            <div class="floating-element element-1">✨</div>
-            <div class="floating-element element-2">💖</div>
-            <div class="floating-element element-3">🌟</div>
-            <div class="floating-element element-4">🎨</div>
+          <div class="col-lg-5 d-flex align-items-center justify-content-center position-relative">
+            <div class="floating-elements">
+              <div class="floating-element element-1">✨</div>
+              <div class="floating-element element-2">💖</div>
+              <div class="floating-element element-3">🌟</div>
+              <div class="floating-element element-4">🎨</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="about py-5">
+    <section id="about" class="about section-padding">
       <div class="container">
         <h2 class="section-title">About</h2>
-        <div class="about-content row align-items-center gy-4">
-          <div class="about-text col-lg-7">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-7">
             <p>I am Regine Bacus Gella, Graduated at Panabo City National High School Batch 2023-2024. Now, a dedicated student currently pursuing a Bachelor of Science in Information Technology (BSIT) at ACES Polytechnic College Incorporated. I have a strong interest in technology, innovation, and digital solutions, with a passion for learning new skills that will help me grow in the field of IT.</p>
             <p>My academic journey is focused on building a solid foundation in programming, systems analysis, database management, and network administration. I am eager to apply my knowledge to real-world applications and continuously enhance my technical and problem-solving skills.</p>
             <p>Beyond academics, I am motivated, adaptable, and goal-driven, with the ability to work both independently and collaboratively. My long-term aspiration is to become a competent IT professional who contributes to technological advancements and creates impactful solutions for businesses and communities.</p>
@@ -716,8 +762,8 @@
             </div>
           </div>
 
-          <div class="about-image col-lg-5 d-flex justify-content-center">
-            <div class="profile-frame shadow-sm fade-in">
+          <div class="col-lg-5 d-flex justify-content-center">
+            <div class="profile-frame fade-in">
               <img src="pic.jpg" alt="Regine Gella" class="profile-photo img-fluid">
             </div>
           </div>
@@ -725,20 +771,21 @@
       </div>
     </section>
 
-    <section id="favorites" class="portfolio py-5">
+    <section id="favorites" class="portfolio section-padding">
       <div class="container">
         <h2 class="section-title">Favorites</h2>
-        <div class="portfolio-grid row gy-4">
-          <div class="portfolio-item col-md-4 fade-in">
+        <div class="row gy-4">
+          <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
-              <div class="card-img-container">
+              <div class="img-container">
                 <img src="bestpart.jpg" alt="Best Part" class="card-img-top">
               </div>
-              <div class="card-body d-flex flex-column">
-                <h3 class="h5">Favorite Music</h3>
-                <p class="text-muted mb-2">Best Part by Daniel Caesar.</p>
-                <p class="mb-2">If you are a movie then you are the Best Part. <i class="fas fa-heart text-danger"></i></p>
-
+              <div class="card-body">
+                <div class="card-content">
+                  <h3 class="h5">Favorite Music</h3>
+                  <p class="text-muted mb-2">Best Part by Daniel Caesar.</p>
+                  <p class="mb-2">If you are a movie then you are the Best Part. <i class="fas fa-heart text-danger"></i></p>
+                </div>
                 <div class="audio-wrapper mt-auto">
                   <audio controls class="audio-player w-100" id="audio-bestpart" preload="none">
                     <source src="H.E.R. - Best Part (Lyrics) Ft. Daniel Caesar.mp3" type="audio/mpeg">
@@ -749,28 +796,32 @@
             </div>
           </div>
 
-          <div class="portfolio-item col-md-4 fade-in">
+          <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
-              <div class="card-img-container">
+              <div class="img-container">
                 <img src="game.jpg" alt="Valorant" class="card-img-top">
               </div>
-              <div class="card-body d-flex flex-column">
-                <h3 class="h5">Favorite Game</h3>
-                <p class="text-muted mb-2">Valorant</p>
-                <p class="mb-0">"Search for the good in all things. If there is none to be found, then act decisively, violently."</p>
+              <div class="card-body">
+                <div class="card-content">
+                  <h3 class="h5">Favorite Game</h3>
+                  <p class="text-muted mb-2">Valorant</p>
+                  <p>"Search for the good in all things. If there is none to be found, then act decisively, violently."</p>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="portfolio-item col-md-4 fade-in">
+          <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
-              <div class="card-img-container">
+              <div class="img-container">
                 <img src="tangled.jpeg" alt="Tangled" class="card-img-top">
               </div>
-              <div class="card-body d-flex flex-column">
-                <h3 class="h5">Favorite Movie</h3>
-                <p class="text-muted mb-2">Tangled</p>
-                <p class="mb-0">Tangled explores deeper meanings related to discovering your true self, breaking free from controlling relationships, and the power of love and courage.</p>
+              <div class="card-body">
+                <div class="card-content">
+                  <h3 class="h5">Favorite Movie</h3>
+                  <p class="text-muted mb-2">Tangled</p>
+                  <p>Tangled explores deeper meanings related to discovering your true self, breaking free from controlling relationships, and the power of love and courage.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -778,193 +829,208 @@
       </div>
     </section>
 
-    <section id="video" class="video py-5 bg-transparent">
+    <section id="video" class="video section-padding">
       <div class="container">
         <h2 class="section-title">Video</h2>
-
-        <div class="card shadow-sm fade-in">
-          <div class="card-body p-3 p-md-4">
-            <div class="ratio ratio-16x9">
-              <video controls id="main-video" class="w-100" preload="metadata" poster="">
-                <source src="d4vd - Here With Me [Official Music Video].mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
+        <div class="row justify-content-center">
+          <div class="col-lg-10 fade-in">
+            <div class="card shadow-sm">
+              <div class="card-body p-3 p-md-4">
+                <div class="ratio ratio-16x9">
+                  <video controls id="main-video" class="w-100" preload="metadata" poster="">
+                    <source src="d4vd - Here With Me [Official Music Video].mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <p class="mt-3 mb-0 text-muted small">Music video — use the controls to play/pause. Adjust volume with your device controls.</p>
+              </div>
             </div>
-            <p class="mt-3 mb-0 text-muted small">Music video — use the controls to play/pause. Adjust volume with your device controls.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="school" class="school py-5">
+    <section id="school" class="school section-padding">
       <div class="container">
         <h2 class="section-title">School</h2>
-
-        <div class="portfolio-grid row gy-4">
-          <div class="portfolio-item col-md-4 fade-in">
-            <div class="card h-100 shadow-sm text-center p-3">
-              <div class="card-img-container">
+        <div class="row gy-4">
+          <div class="col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center">
+              <div class="img-container">
                 <img src="Panabo-Central-Elementary-School.jpg" alt="Panabo Elementary" class="card-img-top">
               </div>
-              <h3 class="h6 mt-3">Panabo Central Elementary School SPED Center</h3>
-              <p class="text-muted mb-0">Batch 2011-2017</p>
+              <div class="card-body">
+                <h3 class="h6 mt-3">Panabo Central Elementary School SPED Center</h3>
+                <p class="text-muted mb-0">Batch 2011-2017</p>
+              </div>
             </div>
           </div>
 
-          <div class="portfolio-item col-md-4 fade-in">
-            <div class="card h-100 shadow-sm text-center p-3">
-              <div class="card-img-container">
+          <div class="col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center">
+              <div class="img-container">
                 <img src="images.png" alt="High School" class="card-img-top">
               </div>
-              <h3 class="h6 mt-3">Panabo City National High School</h3>
-              <p class="text-muted mb-0">Batch 2017-2023</p>
+              <div class="card-body">
+                <h3 class="h6 mt-3">Panabo City National High School</h3>
+                <p class="text-muted mb-0">Batch 2017-2023</p>
+              </div>
             </div>
           </div>
 
-          <div class="portfolio-item col-md-4 fade-in">
-            <div class="card h-100 shadow-sm text-center p-3">
-              <div class="card-img-container">
+          <div class="col-md-4 fade-in">
+            <div class="card h-100 shadow-sm text-center">
+              <div class="img-container">
                 <img src="aces.png" alt="ACES Polytechnic" class="card-img-top">
               </div>
-              <h3 class="h6 mt-3">Aces Polytechnic College Incorporated</h3>
-              <p class="text-muted mb-0">Undergraduate Batch 2024-2025</p>
+              <div class="card-body">
+                <h3 class="h6 mt-3">Aces Polytechnic College Incorporated</h3>
+                <p class="text-muted mb-0">Undergraduate Batch 2024-2025</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="schedule" class="schedule py-5 bg-transparent">
+    <section id="schedule" class="schedule section-padding">
       <div class="container">
         <h2 class="section-title">Schedule</h2>
-
-        <div class="card shadow-sm fade-in">
-          <div class="card-body p-3 p-md-4">
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered align-middle mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>Time</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>10:00 AM - 12:00 PM</td>
-                    <td>Web System and Technology 1</td>
-                    <td>Web System and Technology 1</td>
-                  </tr>
-                  <tr>
-                    <td>12:00 PM</td>
-                    <td colspan="5" class="text-center">Lunch Break</td>
-                  </tr>
-                  <tr>
-                    <td>1:00 PM - 3:00 PM</td>
-                    <td>Am Eng 3 (Advanced)</td>
-                    <td>Am Eng 3 (Advanced)</td>
-                  </tr>
-                  <tr>
-                    <td>3:00 PM - 5:00 PM</td>
-                    <td>Intro to HCI</td>
-                    <td>Intro to HCI</td>
-                  </tr>
-                  <tr>
-                    <td>5:30 PM - 7:30 PM</td>
-                    <td>DSA</td>
-                    <td>DSA</td>
-                  </tr>
-                </tbody>
-              </table>
+        <div class="row justify-content-center">
+          <div class="col-lg-10 fade-in">
+            <div class="card shadow-sm">
+              <div class="card-body p-3 p-md-4">
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered align-middle mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Time</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>10:00 AM - 12:00 PM</td>
+                        <td>Web System and Technology 1</td>
+                        <td>Web System and Technology 1</td>
+                      </tr>
+                      <tr>
+                        <td>12:00 PM</td>
+                        <td colspan="5" class="text-center">Lunch Break</td>
+                      </tr>
+                      <tr>
+                        <td>1:00 PM - 3:00 PM</td>
+                        <td>Am Eng 3 (Advanced)</td>
+                        <td>Am Eng 3 (Advanced)</td>
+                      </tr>
+                      <tr>
+                        <td>3:00 PM - 5:00 PM</td>
+                        <td>Intro to HCI</td>
+                        <td>Intro to HCI</td>
+                      </tr>
+                      <tr>
+                        <td>5:30 PM - 7:30 PM</td>
+                        <td>DSA</td>
+                        <td>DSA</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <small class="text-muted">You can easily edit the table rows/columns to match your real schedule.</small>
+              </div>
             </div>
-            <small class="text-muted">You can easily edit the table rows/columns to match your real schedule.</small>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="project" class="project py-5">
+    <section id="project" class="project section-padding">
       <div class="container">
         <h2 class="section-title">Project</h2>
-
-        <div class="portfolio-grid row">
-          <div class="portfolio-item col-md-6 fade-in">
-            <div class="card h-100 shadow-sm p-3">
-              <div class="card-img-container mb-3">
-                <div class="placeholder-box mx-auto mb-3">
-                </div>
-                <div class="mt-3">
-                  <a href="https://bambammmelkiii.github.io/My-Schedule/">
-                    <img src="2.png" alt="My Project" class="card-img-top">
-                  </a>
-                </div>
+        <div class="row gy-4">
+          <div class="col-md-6 fade-in">
+            <div class="card h-100 shadow-sm">
+              <div class="img-container">
+                <a href="https://bambammmelkiii.github.io/My-Schedule/">
+                  <img src="2.png" alt="My Project" class="card-img-top">
+                </a>
+              </div>
+              <div class="card-body">
                 <h3 class="h6">Schedule</h3>
-              <p class="text-muted">A web development project that cn create your own schedule.</p>
+                <p class="text-muted">A web development project that can create your own schedule.</p>
               </div>
             </div>
           </div>
 
-          <div class="portfolio-item col-md-6 fade-in">
-            <div class="card h-100 shadow-sm p-3">
-              <div class="card-img-container mb-3">
+          <div class="col-md-6 fade-in">
+            <div class="card h-100 shadow-sm">
+              <div class="img-container">
                 <a href="https://bambammmelkiii.github.io/My-Chatgpt/">
                   <img src="screenshot.png" alt="My Project" class="card-img-top">
                 </a>
               </div>
-              <h3 class="h6">ChatGPT Project</h3>
-              <p class="text-muted">A web development project created with assistance from ChatGPT.</p>
+              <div class="card-body">
+                <h3 class="h6">ChatGPT Project</h3>
+                <p class="text-muted">A web development project created with assistance from ChatGPT.</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="contact py-5 bg-transparent">
+    <section id="contact" class="contact section-padding">
       <div class="container">
         <h2 class="section-title">Get In Touch</h2>
+        <div class="row gy-4">
+          <div class="col-lg-5 fade-in">
+            <div class="card h-100 shadow-sm p-4">
+              <h3>Let's talk More!</h3>
+              <p>Feel free to send feedbacks about on my Personal Webpage.</p>
 
-        <div class="contact-content row gy-4">
-          <div class="contact-info col-md-5 fade-in">
-            <h3>Let's talk More!</h3>
-            <p>Feel free to send feedbacks about on my Personal Webpage.</p>
+              <div class="contact-details">
+                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                  <i class="fas fa-envelope"></i>
+                  <span>rreginegella@gmail.com</span>
+                </div>
+                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                  <i class="fas fa-phone"></i>
+                  <span>09063314054</span>
+                </div>
+                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>Carmen, Davao del Norte</span>
+                </div>
 
-            <div class="contact-details">
-              <div class="contact-item d-flex align-items-center gap-2 mb-2">
-                <i class="fas fa-envelope"></i>
-                <span>rreginegella@gmail.com</span>
-              </div>
-              <div class="contact-item d-flex align-items-center gap-2 mb-2">
-                <i class="fas fa-phone"></i>
-                <span>09063314054</span>
-              </div>
-              <div class="contact-item d-flex align-items-center gap-2 mb-2">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Carmen, Davao del Norte</span>
-              </div>
-
-              <div class="map-embed mt-3">
-                <iframe
-                   src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d989.3099294101938!2d125.6919051211835!3d7.326950495159121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1756139155787!5m2!1sen!2sph"
-                   width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="map-embed mt-3">
+                  <iframe
+                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d989.3099294101938!2d125.6919051211835!3d7.326950495159121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1756139155787!5m2!1sen!2sph"
+                     width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
               </div>
             </div>
           </div>
 
-          <form class="contact-form col-md-7 fade-in" id="contactForm">
-            <div class="form-group mb-3">
-              <input type="text" id="name" name="name" placeholder="Your Name" required class="form-control">
-              <div class="error-message">Please enter your name</div>
+          <div class="col-lg-7 fade-in">
+            <div class="card shadow-sm p-4 h-100">
+              <form class="contact-form" id="contactForm">
+                <div class="form-group mb-3">
+                  <input type="text" id="name" name="name" placeholder="Your Name" required class="form-control">
+                  <div class="error-message">Please enter your name</div>
+                </div>
+                <div class="form-group mb-3">
+                  <input type="email" id="email" name="email" placeholder="Your Email" required class="form-control">
+                  <div class="error-message">Please enter a valid email</div>
+                </div>
+                <div class="form-group mb-3">
+                  <textarea id="message" name="message" placeholder="Your Message" rows="5" required class="form-control"></textarea>
+                  <div class="error-message">Please enter your message</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+              </form>
             </div>
-            <div class="form-group mb-3">
-              <input type="email" id="email" name="email" placeholder="Your Email" required class="form-control">
-              <div class="error-message">Please enter a valid email</div>
-            </div>
-            <div class="form-group mb-3">
-              <textarea id="message" name="message" placeholder="Your Message" rows="5" required class="form-control"></textarea>
-              <div class="error-message">Please enter your message</div>
-            </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
-          </form>
+          </div>
         </div>
       </div>
     </section>
@@ -1295,7 +1361,7 @@
           ctx.arc(ast.x, ast.y, ast.r, 0, Math.PI * 2);
           ctx.fill();
           ast.x += ast.dx;
-          ast.y += ast.dy;
+          ast.y += ast.y;
           
           if (ast.x < -50) ast.x = canvas.width + 50;
           if (ast.x > canvas.width + 50) ast.x = -50;
@@ -1394,6 +1460,3 @@
 </body>
 
 </html>
-
-
-
