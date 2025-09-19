@@ -4,8 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>R.B.G. - Portfolio 2025</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="description" content="Regine Gella - BSIT Student and Future Developer Portfolio">
+  
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"></noscript>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,15 +19,19 @@
     :root {
       --primary: #6c63ff;
       --secondary: #ff6584;
+      --accent: #63ff9e;
       --dark: #222;
       --light: #f8f9fa;
       --gradient: linear-gradient(135deg, #6c63ff, #ff6584);
+      --gradient-alt: linear-gradient(135deg, #63ff9e, #6c63ff);
       --radius: 1rem;
       --shadow: 0 8px 20px rgba(0,0,0,0.12);
+      --shadow-hover: 0 15px 30px rgba(0,0,0,0.2);
       --bg-dark: radial-gradient(ellipse, #1b2735 0%, #090a0f 100%);
       --bg-light: #f6f8fa;
       --text-dark: #222;
       --text-light: #f8f9fa;
+      --transition: all 0.3s ease;
     }
 
     [data-theme="light"] {
@@ -34,6 +43,8 @@
       --skill-bar-bg: #e9ecef;
       --table-head-bg: #f8f9fa;
       --table-striped-bg: rgba(34, 34, 34, 0.05);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.18);
     }
 
     [data-theme="dark"] {
@@ -45,7 +56,8 @@
       --skill-bar-bg: #3e3e52;
       --table-head-bg: #343a40;
       --table-striped-bg: rgba(248, 249, 250, 0.05);
-      
+      --glass-bg: rgba(42, 42, 58, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
     }
 
     * {
@@ -63,7 +75,8 @@
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: var(--transition);
+      overflow-x: hidden;
     }
     
     .text-muted {
@@ -72,6 +85,15 @@
 
     h1, h2, h3, h4, h5 {
       font-weight: 700;
+    }
+
+    /* Glassmorphism effect */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
     }
 
     /* Scroll Progress */
@@ -100,6 +122,7 @@
       height: 100%;
       background: var(--bg-primary);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
@@ -113,11 +136,20 @@
       border-radius: 50%;
       border-top: 5px solid var(--primary);
       animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
     }
 
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 1.2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
     }
 
     /* Theme Toggle */
@@ -139,7 +171,7 @@
     }
 
     .theme-toggle:hover {
-      transform: rotate(30deg);
+      transform: rotate(30deg) scale(1.1);
     }
 
     /* Back to Top */
@@ -168,27 +200,46 @@
       visibility: visible;
     }
 
+    .back-to-top:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
     /* =========================
        Navbar
     ========================= */
     .navbar {
-      background: var(--card-bg);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
       padding: 0.75rem 1rem;
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 100;
-      transition: background 0.3s ease;
+      transition: var(--transition);
     }
 
     .logo-text {
       font-family: "Dancing Script", cursive;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      transition: var(--transition);
+    }
+
+    .logo-text:hover {
+      transform: scale(1.05);
     }
 
     .nav-link {
@@ -196,12 +247,15 @@
       font-weight: 500;
       transition: color 0.3s;
       color: var(--text-primary);
+      padding: 0.5rem 1rem !important;
+      border-radius: var(--radius);
     }
 
     .nav-link::after {
       content: "";
       position: absolute;
-      bottom: -4px; left: 0;
+      bottom: -4px; left: 50%;
+      transform: translateX(-50%);
       width: 0; height: 2px;
       background: var(--gradient);
       transition: width 0.3s ease;
@@ -209,7 +263,7 @@
 
     .nav-link:hover::after,
     .nav-link.active::after {
-      width: 100%;
+      width: 80%;
     }
 
     .nav-link:hover,
@@ -225,6 +279,7 @@
       justify-content: space-around;
       width: 30px;
       height: 21px;
+      z-index: 101;
     }
 
     .hamburger .bar {
@@ -249,9 +304,10 @@
     }
 
     .hero-title {
-      font-size: 3.5rem;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
       position: relative;
       margin-bottom: 1rem;
+      line-height: 1.2;
     }
 
     .gradient-text {
@@ -272,15 +328,29 @@
       100% { opacity: 1; }
     }
 
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--muted-color);
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
     .hero-buttons .btn {
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
       padding: 0.75rem 1.5rem;
+      font-weight: 600;
     }
 
     .hero-buttons .btn:hover {
       transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
 
     /* Floating Emojis */
@@ -351,6 +421,7 @@
       display: inline-block;
       color: var(--text-primary);
       border: 1px solid transparent;
+      cursor: default;
     }
 
     .skill-tag:hover {
@@ -394,7 +465,7 @@
 
     .card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      box-shadow: var(--shadow-hover);
     }
 
     .audio-player {
@@ -409,7 +480,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #f8f9fa; /* Fallback background if image doesn't load */
+      background-color: var(--skill-bar-bg); /* Fallback background if image doesn't load */
     }
 
     /* School section images - restored to original sizes */
@@ -467,7 +538,7 @@
     .section-title {
       text-align: center;
       margin-bottom: 3rem;
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
       position: relative;
       padding-bottom: 1rem;
     }
@@ -507,7 +578,7 @@
     }
 
     .error-message {
-      color: #ff6584;
+      color: var(--secondary);
       font-size: 0.8rem;
       margin-top: 0.25rem;
       display: none;
@@ -519,7 +590,7 @@
 
     .form-group.error input,
     .form-group.error textarea {
-      border-color: #ff6584;
+      border-color: var(--secondary);
     }
 
     .form-group.success input,
@@ -534,7 +605,8 @@
       font-size: 0.9rem;
       background: var(--card-bg);
       color: var(--text-primary);
-      transition: background 0.3s ease;
+      transition: var(--transition);
+      padding: 1.5rem 0;
     }
 
     .social-link {
@@ -554,23 +626,16 @@
       transform: translateY(-5px);
     }
 
-    /* ===== Galaxy Background ===== */
-    #galaxy-bg {
+    /* ===== Particle Background ===== */
+    #particles-js {
       position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: var(--bg-dark);
     }
 
     /* ===== Responsive Design ===== */
     @media (max-width: 992px) {
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      
       .nav-menu {
         position: fixed;
         top: 76px;
@@ -606,16 +671,8 @@
     }
 
     @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-      
       .floating-elements {
         display: none;
-      }
-      
-      .section-title {
-        font-size: 2rem;
       }
       
       .card-img-container {
@@ -629,6 +686,14 @@
       /* School images on mobile */
       .school .card-img-container {
         height: auto;
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .hero-text {
+        text-align: center;
       }
     }
 
@@ -659,11 +724,38 @@
     .section-padding {
       padding: 5rem 0;
     }
+    
+    /* Custom Cursor */
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      mix-blend-mode: difference;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: transform 0.1s;
+    }
+    
+    .cursor-follower {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9998;
+      transition: all 0.2s ease;
+    }
   </style>
 </head>
 <body>
   <div id="loading">
     <div class="spinner"></div>
+    <div class="loading-text">Loading Portfolio...</div>
   </div>
 
   <div class="progress-container">
@@ -678,7 +770,12 @@
     <i class="fas fa-arrow-up"></i>
   </div>
 
-  <canvas id="galaxy-bg"></canvas>
+  <div id="particles-js"></div>
+  
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
       <div class="nav-logo">
@@ -706,13 +803,14 @@
     <section id="home" class="hero section-padding">
       <div class="container">
         <div class="row align-items-center">
-          <div class="col-lg-7">
+          <div class="col-lg-7 hero-text">
             <h1 class="hero-title"><span class="gradient-text" id="typed"></span></h1>
             <p class="hero-subtitle">Bachelor of Science in Information and Technology</p>
-            <p class="hero-description">Welcome To My Personal Webpage! Enjoy!</p>
+            <p class="hero-description">Welcome To My Personal Webpage! Enjoy exploring my journey and projects!</p>
             <div class="hero-buttons d-flex gap-2 flex-wrap">
               <a href="#favorites" class="btn btn-primary">View Favorites</a>
               <a href="#contact" class="btn btn-outline-primary">Get In Touch</a>
+              <a href="#project" class="btn btn-outline-secondary">My Projects</a>
             </div>
           </div>
 
@@ -730,12 +828,14 @@
 
     <section id="about" class="about section-padding">
       <div class="container">
-        <h2 class="section-title">About</h2>
+        <h2 class="section-title">About Me</h2>
         <div class="row align-items-center gy-4">
           <div class="col-lg-7">
-            <p>I am Regine Bacus Gella, Graduated at Panabo City National High School Batch 2023-2024. Now, a dedicated student currently pursuing a Bachelor of Science in Information Technology (BSIT) at ACES Polytechnic College Incorporated. I have a strong interest in technology, innovation, and digital solutions, with a passion for learning new skills that will help me grow in the field of IT.</p>
-            <p>My academic journey is focused on building a solid foundation in programming, systems analysis, database management, and network administration. I am eager to apply my knowledge to real-world applications and continuously enhance my technical and problem-solving skills.</p>
-            <p>Beyond academics, I am motivated, adaptable, and goal-driven, with the ability to work both independently and collaboratively. My long-term aspiration is to become a competent IT professional who contributes to technological advancements and creates impactful solutions for businesses and communities.</p>
+            <div class="glass p-4 rounded-3 mb-4">
+              <p>I am Regine Bacus Gella, Graduated at Panabo City National High School Batch 2023-2024. Now, a dedicated student currently pursuing a Bachelor of Science in Information Technology (BSIT) at ACES Polytechnic College Incorporated. I have a strong interest in technology, innovation, and digital solutions, with a passion for learning new skills that will help me grow in the field of IT.</p>
+              <p>My academic journey is focused on building a solid foundation in programming, systems analysis, database management, and network administration. I am eager to apply my knowledge to real-world applications and continuously enhance my technical and problem-solving skills.</p>
+              <p>Beyond academics, I am motivated, adaptable, and goal-driven, with the ability to work both independently and collaboratively. My long-term aspiration is to become a competent IT professional who contributes to technological advancements and creates impactful solutions for businesses and communities.</p>
+            </div>
 
             <div class="skills mt-4">
               <h3>Hobbies & Interests</h3>
@@ -773,7 +873,7 @@
 
           <div class="col-lg-5 d-flex justify-content-center">
             <div class="profile-frame fade-in">
-              <img src="pic.jpg" alt="Regine Gella" class="profile-photo img-fluid">
+              <img src="pic.jpg" alt="Regine Gella" class="profile-photo img-fluid" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22400%22 height%3D%22400%22 viewBox%3D%220 0 400 400%22%3E%3Crect fill%3D%22%236c63ff%22 width%3D%22400%22 height%3D%22400%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2230%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22200%22 y%3D%22200%22%3ERegine Gella%3C%2Ftext%3E%3C%2Fsvg%3E'">
             </div>
           </div>
         </div>
@@ -782,12 +882,12 @@
 
     <section id="favorites" class="portfolio section-padding">
       <div class="container">
-        <h2 class="section-title">Favorites</h2>
+        <h2 class="section-title">My Favorites</h2>
         <div class="row gy-4">
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
               <div class="card-img-container">
-                <img src="bestpart.jpg" alt="Best Part" class="card-img-top">
+                <img src="bestpart.jpg" alt="Best Part" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22250%22 viewBox%3D%220 0 300 250%22%3E%3Crect fill%3D%22%23ff6584%22 width%3D%22300%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22125%22%3EFavorite Music%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <div class="card-content">
@@ -808,7 +908,7 @@
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
               <div class="card-img-container">
-                <img src="game.jpg" alt="Valorant" class="card-img-top">
+                <img src="game.jpg" alt="Valorant" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22250%22 viewBox%3D%220 0 300 250%22%3E%3Crect fill%3D%22%2363ff9e%22 width%3D%22300%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22125%22%3EFavorite Game%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <div class="card-content">
@@ -823,7 +923,7 @@
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm">
               <div class="card-img-container">
-                <img src="tangled.jpeg" alt="Tangled" class="card-img-top">
+                <img src="tangled.jpeg" alt="Tangled" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22250%22 viewBox%3D%220 0 300 250%22%3E%3Crect fill%3D%22%236c63ff%22 width%3D%22300%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22125%22%3EFavorite Movie%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <div class="card-content">
@@ -840,7 +940,7 @@
 
     <section id="video" class="video section-padding">
       <div class="container">
-        <h2 class="section-title">Video</h2>
+        <h2 class="section-title">Featured Video</h2>
         <div class="row justify-content-center">
           <div class="col-lg-10 fade-in">
             <div class="card shadow-sm">
@@ -861,12 +961,12 @@
 
     <section id="school" class="school section-padding">
       <div class="container">
-        <h2 class="section-title">School</h2>
+        <h2 class="section-title">Education</h2>
         <div class="row gy-4">
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm text-center">
               <div class="card-img-container">
-                <img src="Panabo-Central-Elementary-School.jpg" alt="Panabo Elementary" class="card-img-top">
+                <img src="Panabo-Central-Elementary-School.jpg" alt="Panabo Elementary" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22200%22 viewBox%3D%220 0 300 200%22%3E%3Crect fill%3D%22%236c63ff%22 width%3D%22300%22 height%3D%22200%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2218%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22100%22%3EElementary School%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <h3 class="h6 mt-3">Panabo Central Elementary School SPED Center</h3>
@@ -878,7 +978,7 @@
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm text-center">
               <div class="card-img-container">
-                <img src="images.png" alt="High School" class="card-img-top">
+                <img src="images.png" alt="High School" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22200%22 viewBox%3D%220 0 300 200%22%3E%3Crect fill%3D%22%23ff6584%22 width%3D%22300%22 height%3D%22200%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2218%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22100%22%3EHigh School%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <h3 class="h6 mt-3">Panabo City National High School</h3>
@@ -890,7 +990,7 @@
           <div class="col-md-4 fade-in">
             <div class="card h-100 shadow-sm text-center">
               <div class="card-img-container">
-                <img src="aces.png" alt="ACES Polytechnic" class="card-img-top">
+                <img src="aces.png" alt="ACES Polytechnic" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22300%22 height%3D%22200%22 viewBox%3D%220 0 300 200%22%3E%3Crect fill%3D%22%2363ff9e%22 width%3D%22300%22 height%3D%22200%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2218%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22150%22 y%3D%22100%22%3ECollege%3C%2Ftext%3E%3C%2Fsvg%3E'">
               </div>
               <div class="card-body">
                 <h3 class="h6 mt-3">Aces Polytechnic College Incorporated</h3>
@@ -904,7 +1004,7 @@
 
     <section id="schedule" class="schedule section-padding">
       <div class="container">
-        <h2 class="section-title">Schedule</h2>
+        <h2 class="section-title">Class Schedule</h2>
         <div class="row justify-content-center">
           <div class="col-lg-10 fade-in">
             <div class="card shadow-sm">
@@ -956,18 +1056,19 @@
 
     <section id="project" class="project section-padding">
       <div class="container">
-        <h2 class="section-title">Project</h2>
+        <h2 class="section-title">My Projects</h2>
         <div class="row gy-4">
           <div class="col-md-6 fade-in">
             <div class="card h-100 shadow-sm">
               <div class="card-img-container">
-                <a href="https://bambammmelkiii.github.io/My-Schedule/">
-                  <img src="2.png" alt="My Project" class="card-img-top">
+                <a href="https://bambammmelkiii.github.io/My-Schedule/" target="_blank" rel="noopener">
+                  <img src="2.png" alt="My Project" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22500%22 height%3D%22250%22 viewBox%3D%220 0 500 250%22%3E%3Crect fill%3D%22%236c63ff%22 width%3D%22500%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22250%22 y%3D%22125%22%3ESchedule Project%3C%2Ftext%3E%3C%2Fsvg%3E'">
                 </a>
               </div>
               <div class="card-body">
                 <h3 class="h6">Schedule</h3>
                 <p class="text-muted">A web development project that can create your own schedule.</p>
+                <a href="https://bambammmelkiii.github.io/My-Schedule/" target="_blank" rel="noopener" class="btn btn-sm btn-primary mt-2">View Project</a>
               </div>
             </div>
           </div>
@@ -975,13 +1076,14 @@
           <div class="col-md-6 fade-in">
             <div class="card h-100 shadow-sm">
               <div class="card-img-container">
-                <a href="https://bambammmelkiii.github.io/My-Chatgpt/">
-                  <img src="screenshot.png" alt="My Project" class="card-img-top">
+                <a href="https://bambammmelkiii.github.io/My-Chatgpt/" target="_blank" rel="noopener">
+                  <img src="screenshot.png" alt="My Project" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22500%22 height%3D%22250%22 viewBox%3D%220 0 500 250%22%3E%3Crect fill%3D%22%23ff6584%22 width%3D%22500%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22250%22 y%3D%22125%22%3EChatGPT Project%3C%2Ftext%3E%3C%2Fsvg%3E'">
                 </a>
               </div>
               <div class="card-body">
                 <h3 class="h6">ChatGPT Project</h3>
                 <p class="text-muted">A web development project created with assistance from ChatGPT.</p>
+                <a href="https://bambammmelkiii.github.io/My-Chatgpt/" target="_blank" rel="noopener" class="btn btn-sm btn-primary mt-2">View Project</a>
               </div>
             </div>
           </div>
@@ -994,25 +1096,25 @@
         <h2 class="section-title">Get In Touch</h2>
         <div class="row gy-4">
           <div class="col-lg-5 fade-in">
-            <div class="card h-100 shadow-sm p-4">
+            <div class="card h-100 shadow-sm p-4 glass">
               <h3>Let's talk More!</h3>
               <p>Feel free to send feedbacks about on my Personal Webpage.</p>
 
               <div class="contact-details">
-                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <div class="contact-item d-flex align-items-center gap-2 mb-3">
                   <i class="fas fa-envelope"></i>
                   <span>rreginegella@gmail.com</span>
                 </div>
-                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <div class="contact-item d-flex align-items-center gap-2 mb-3">
                   <i class="fas fa-phone"></i>
                   <span>09063314054</span>
                 </div>
-                <div class="contact-item d-flex align-items-center gap-2 mb-2">
+                <div class="contact-item d-flex align-items-center gap-2 mb-3">
                   <i class="fas fa-map-marker-alt"></i>
                   <span>Carmen, Davao del Norte</span>
                 </div>
 
-                <div class="map-embed mt-3">
+                <div class="map-embed mt-3 rounded-3 overflow-hidden">
                   <iframe
                      src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d989.3099294101938!2d125.6919051211835!3d7.326950495159121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sph!4v1756139155787!5m2!1sen!2sph"
                      width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -1022,7 +1124,7 @@
           </div>
 
           <div class="col-lg-7 fade-in">
-            <div class="card shadow-sm p-4 h-100">
+            <div class="card shadow-sm p-4 h-100 glass">
               <form class="contact-form" id="contactForm">
                 <div class="form-group mb-3">
                   <input type="text" id="name" name="name" placeholder="Your Name" required class="form-control">
@@ -1057,6 +1159,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   
   <script>
     // Wait for page to load
@@ -1072,6 +1175,46 @@
     });
 
     function initApp() {
+      // Initialize particles.js
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: "#6c63ff" },
+          shape: { type: "circle" },
+          opacity: { value: 0.5, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#6c63ff",
+            opacity: 0.4,
+            width: 1
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: "none",
+            random: true,
+            straight: false,
+            out_mode: "out",
+            bounce: false
+          }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" },
+            resize: true
+          },
+          modes: {
+            repulse: { distance: 100, duration: 0.4 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+
       // Typing animation
       const typedElement = document.getElementById('typed');
       const texts = ["Regine Gella", "A BSIT Student", "A Future Developer"];
@@ -1310,164 +1453,38 @@
         });
       });
       
+      // Custom cursor
+      const cursor = document.getElementById('customCursor');
+      const cursorFollower = document.getElementById('cursorFollower');
+      
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorFollower.style.left = e.clientX + 'px';
+          cursorFollower.style.top = e.clientY + 'px';
+        }, 100);
+      });
+      
+      // Change cursor on interactive elements
+      const interactiveElements = document.querySelectorAll('a, button, .nav-link, .card, .theme-toggle, .back-to-top');
+      
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'scale(1.5)';
+          cursorFollower.style.transform = 'scale(1.5)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'scale(1)';
+          cursorFollower.style.transform = 'scale(1)';
+        });
+      });
+      
       // Initialize animations on page load
       animateOnScroll();
-      
-      // ===== Galaxy Background Animation =====
-      const canvas = document.getElementById('galaxy-bg');
-      const ctx = canvas.getContext('2d');
-      let stars = [], asteroids = [];
-      
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-      
-      // Create stars
-      for (let i = 0; i < 200; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 2,
-          speed: Math.random() * 0.5 + 0.2
-        });
-      }
-      
-      // Create asteroids
-      for (let i = 0; i < 5; i++) {
-        asteroids.push({
-          x: Math.random() * canvas.width,
-          y: Math.random()极
-          r: Math.random() * 20 + 10,
-          dx: Math.random() * 2 - 1,
-          dy: Math.random() * 2 - 1
-        });
-      }
-      
-      function drawGalaxy() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Stars
-        ctx.fillStyle = "white";
-        stars.forEach(star => {
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-          ctx.fill();
-          star.y += star.speed;
-          if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-          }
-        });
-        
-        // Asteroids
-        ctx.fillStyle = "rgba(200,200,200,0.7)";
-        asteroids.forEach(ast => {
-          ctx.beginPath();
-          ctx.arc(ast.x, ast.y, ast.r, 0, Math.PI * 2);
-          ctx.fill();
-          ast.x += ast.dx;
-          ast.y += ast.y;
-          
-          if (ast.x < -50) ast.x = canvas.width + 50;
-          if (ast.x > canvas.width + 50) ast.x = -50;
-         极
-          if (ast.y < -50) ast.y = canvas.height + 50;
-          if (ast.y > canvas.height + 50) ast.y = -50;
-        });
-        
-        requestAnimationFrame(drawGalaxy);
-      }
-      
-      drawGalaxy();
     }
-
-
-  // This script will make the canvas background and main text color update when dark mode is toggled.
-  // It works with your existing theme toggle and variable system.
-
-  function setGalaxyBgTheme(theme) {
-    const galaxyBg = document.getElementById('galaxy-bg');
-    if (!galaxyBg) return;
-    if (theme === 'dark') {
-      galaxyBg.style.background = 'radial-gradient(ellipse, #1b2735 0%, #090a0f 100%)';
-    } else {
-      galaxyBg.style.background = '#f6f8fa';
-    }
-  }
-
-  function setMainTextColors(theme) {
-    // Most text colors are set by CSS variables. But ensure special elements follow the theme.
-    document.querySelectorAll('.hero-title, .section-title, .hero-subtitle, .hero-description').forEach(el => {
-      el.style.color = theme === 'dark' ? '#f8f9fa' : '#222';
-    });
-    // You can add more selectors here if you want more elements to be updated.
-  }
-
-  // Initial setup
-  (function() {
-    const theme =
-      localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setGalaxyBgTheme(theme);
-    setMainTextColors(theme);
-  })();
-
-  // Listen for theme changes (works with your theme toggle)
-  document.getElementById('themeToggle').addEventListener('click', function() {
-    const theme =
-      document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    setTimeout(function() {
-      setGalaxyBgTheme(theme);
-     极
-      setMainTextColors(theme);
-    }, 10); // slight delay to allow data-theme to update
-  });
-
-  // Also listen for storage changes (if theme changes in another tab)
-  window.addEventListener极('storage', function() {
-    const theme = localStorage.getItem('theme') || 'light';
-    setGalaxyBgTheme(theme);
-    setMainTextColors(theme);
-  });
-
-   function setGalaxyBgTheme(theme) {
-    const galaxyBg = document.getElementById('galaxy-bg');
-    if (!galaxyBg) return;
-    if (theme === 'dark') {
-      galaxyBg.style.background = 'radial-gradient(ellipse, #1b2735 0%, #090a0f 100%)';
-    } else {
-      galaxyBg.style.background = '#f6f8fa';
-    }
-  }
-
-  // Initial setup
-  (function() {
-    const theme =
-      localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setGalaxyBgTheme(theme);
-  })();
-
-  // Listen for theme changes via your toggle button
-  document.getElementById('themeToggle').addEventListener('click', function() {
-    setTimeout(function() {
-      const theme =
-        document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      setGalaxyBgTheme(theme);
-    }, 10); // Slight delay to allow data-theme to update
-  });
-
-  // Listen for storage changes (极if theme is changed in another tab)
-  window.addEventListener('storage', function() {
-    const theme = localStorage.getItem('theme') || 'light';
-    setGalaxyBgTheme(theme);
-  });
-
   </script>
 </body>
-
 </html>
