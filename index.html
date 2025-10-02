@@ -750,6 +750,160 @@
       z-index: 9998;
       transition: all 0.2s ease;
     }
+
+    /* =========================
+       Dino Game Section
+    ========================= */
+    .game-section {
+      padding: 5rem 0;
+      background: var(--card-bg);
+    }
+
+    .game-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 200px;
+      margin: 0 auto;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #f7f7f7;
+    }
+
+    .game-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .game-controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .game-score {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      color: #535353;
+      z-index: 10;
+      font-family: 'Courier New', monospace;
+    }
+
+    .game-start-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #535353;
+      z-index: 30;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .game-start-screen .error-icon {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    .game-start-screen h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #535353;
+    }
+
+    .game-start-screen p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .game-start-screen .dino {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .game-over-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      z-index: 20;
+      display: none;
+    }
+
+    .game-over-screen h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .game-over-screen p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .game-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      background-color: #535353;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+
+    .game-btn:hover {
+      background-color: #333;
+    }
+
+    .game-instructions {
+      margin-top: 20px;
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .game-instructions p {
+      margin-bottom: 10px;
+    }
+
+    .game-instructions kbd {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+      color: var(--text-primary);
+      display: inline-block;
+      font-size: 0.85em;
+      font-weight: 700;
+      line-height: 1;
+      padding: 2px 4px;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -789,6 +943,7 @@
         <li class="nav-item"><a href="#school" class="nav-link">School</a></li>
         <li class="nav-item"><a href="#schedule" class="nav-link">Schedule</a></li>
         <li class="nav-item"><a href="#project" class="nav-link">Project</a></li>
+        <li class="nav-item"><a href="#dino-game" class="nav-link">Dino Game</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
       <div class="hamburger d-lg-none">
@@ -1119,19 +1274,37 @@
           </div>
         </div>
       </div>
+    </section>
 
-       <div class="col-md-4 fade-in">
-            <div class="card h-100 shadow-sm">
-              <div class="card-img-container">
-                <a href="https://bambammmelkiii.github.io/Dino-rawr/" target="_blank" rel="noopener">
-                  <img src="todo.jpg" alt="To-Do List" class="card-img-top" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22500%22 height%3D%22250%22 viewBox%3D%220 0 500 250%22%3E%3Crect fill%3D%22%23ff6584%22 width%3D%22500%22 height%3D%22250%22%2F%3E%3Ctext fill%3D%22%23ffffff%22 font-family%3D%22Arial%22 font-size%3D%2220%22 dy%3D%22.35em%22 text-anchor%3D%22middle%22 x%3D%22250%22 y%3D%22125%22%3ETo-Do List%3C%2Ftext%3E%3C%2Fsvg%3E'">
-                </a>
+    <section id="dino-game" class="game-section section-padding">
+      <div class="container">
+        <h2 class="section-title">Dino Runner Game</h2>
+        <div class="row justify-content-center">
+          <div class="col-lg-10 fade-in">
+            <div class="game-container">
+              <canvas class="game-canvas" id="dino-game-canvas"></canvas>
+              
+              <div class="game-score" id="dino-score-display">Score: 0</div>
+              
+              <div class="game-start-screen" id="dino-start-screen">
+                <div class="error-icon">⚠️</div>
+                <h2>No Internet Connection</h2>
+                <p>Unable to connect to the internet</p>
+                <div class="dino">🦕</div>
+                <p>Press SPACE to start the game</p>
               </div>
-              <div class="card-body">
-                <h3 class="h6">Dino Game</h3>
-                <p class="text-muted">A Game that is mostly we see on chrome when no internet connection.</p>
-                <a href="https://bambammmelkiii.github.io/Dino-rawr//" target="_blank" rel="noopener" class="btn btn-sm btn-primary mt-2">View Project</a>
+              
+              <div class="game-over-screen" id="dino-game-over">
+                <h2>Game Over!</h2>
+                <p>Your Score: <span id="dino-final-score">0</span></p>
+                <button class="game-btn" id="dino-restart-btn">Play Again</button>
               </div>
+            </div>
+            
+            <div class="game-instructions mt-4">
+              <p><strong>How to Play:</strong></p>
+              <p><kbd>SPACE</kbd> or <kbd>↑</kbd> - Jump | <kbd>↓</kbd> - Duck</p>
+              <p>Avoid obstacles and survive as long as possible!</p>
             </div>
           </div>
         </div>
@@ -1531,8 +1704,319 @@
       
       // Initialize animations on page load
       animateOnScroll();
+      
+      // Initialize Dino Game
+      initDinoGame();
+    }
+
+    // =============================================
+    // DINO GAME IMPLEMENTATION
+    // =============================================
+    function initDinoGame() {
+      // Game elements
+      const canvas = document.getElementById('dino-game-canvas');
+      const ctx = canvas.getContext('2d');
+      const scoreDisplay = document.getElementById('dino-score-display');
+      const gameOverScreen = document.getElementById('dino-game-over');
+      const finalScoreDisplay = document.getElementById('dino-final-score');
+      const restartBtn = document.getElementById('dino-restart-btn');
+      const startScreen = document.getElementById('dino-start-screen');
+
+      // Set canvas size to container size
+      function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+      }
+      
+      // Initial canvas resize
+      resizeCanvas();
+      
+      // Resize canvas when window size changes
+      window.addEventListener('resize', resizeCanvas);
+
+      // Game variables
+      let gameSpeed = 5;
+      let score = 0;
+      let gameActive = false;
+      let gamePaused = false;
+      let frames = 0;
+      let groundPosition = 0;
+
+      // Dino character
+      const dino = {
+        x: 50,
+        y: 0,
+        width: 40,
+        height: 40,
+        dy: 0,
+        jumpForce: 12,
+        gravity: 0.6,
+        isJumping: false,
+        isDucking: false,
+        
+        init() {
+          this.y = canvas.height * 0.7 - this.height;
+        },
+        
+        draw() {
+          ctx.fillStyle = '#535353';
+          
+          if (this.isDucking) {
+            // Draw ducking dino
+            ctx.fillRect(this.x, this.y + 20, this.width, this.height - 20);
+            ctx.fillRect(this.x + 10, this.y + 10, 20, 10);
+          } else {
+            // Draw standing dino
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x + 10, this.y - 10, 20, 10);
+          }
+        },
+        
+        update() {
+          // Apply gravity
+          if (this.isJumping) {
+            this.dy -= this.gravity;
+            this.y -= this.dy;
+            
+            // Check if landed
+            if (this.y >= canvas.height * 0.7 - this.height) {
+              this.y = canvas.height * 0.7 - this.height;
+              this.dy = 0;
+              this.isJumping = false;
+            }
+          }
+          
+          this.draw();
+        },
+        
+        jump() {
+          if (!this.isJumping && !this.isDucking) {
+            this.isJumping = true;
+            this.dy = this.jumpForce;
+          }
+        },
+        
+        duck() {
+          if (!this.isJumping) {
+            this.isDucking = true;
+          }
+        },
+        
+        standUp() {
+          if (this.isDucking) {
+            this.isDucking = false;
+          }
+        }
+      };
+
+      // Obstacles array
+      let obstacles = [];
+
+      // Obstacle class
+      class Obstacle {
+        constructor() {
+          this.width = 20;
+          this.height = 30;
+          this.x = canvas.width;
+          this.y = canvas.height * 0.7 - this.height;
+          this.color = '#535353';
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+        
+        update() {
+          this.x -= gameSpeed;
+          this.draw();
+        }
+        
+        collideWith(dino) {
+          return (
+            dino.x < this.x + this.width &&
+            dino.x + dino.width > this.x &&
+            dino.y < this.y + this.height &&
+            dino.y + dino.height > this.y
+          );
+        }
+      }
+
+      // Draw background elements
+      function drawBackground() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw sky
+        ctx.fillStyle = '#f7f7f7';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw ground
+        ctx.fillStyle = '#535353';
+        ctx.fillRect(0, canvas.height * 0.7, canvas.width, canvas.height * 0.3);
+        
+        // Draw ground line
+        ctx.fillStyle = '#535353';
+        ctx.fillRect(0, canvas.height * 0.7, canvas.width, 2);
+        
+        // Draw moving ground pattern
+        ctx.fillStyle = '#535353';
+        const groundPatternHeight = 5;
+        const groundPatternWidth = 20;
+        const groundPatternSpacing = 10;
+        
+        for (let x = -groundPatternWidth + (groundPosition % (groundPatternWidth + groundPatternSpacing)); x < canvas.width; x += groundPatternWidth + groundPatternSpacing) {
+          ctx.fillRect(x, canvas.height * 0.7 + 2, groundPatternWidth, groundPatternHeight);
+        }
+      }
+
+      // Create new obstacle
+      function createObstacle() {
+        obstacles.push(new Obstacle());
+      }
+
+      // Update game state
+      function update() {
+        if (gamePaused) return;
+        
+        frames++;
+        
+        // Update ground position for moving effect
+        groundPosition -= gameSpeed;
+        
+        // Draw background
+        drawBackground();
+        
+        // Update and draw dino
+        dino.update();
+        
+        // Create new obstacles based on frequency
+        if (frames % 100 === 0) {
+          createObstacle();
+        }
+        
+        // Update and draw obstacles
+        for (let i = 0; i < obstacles.length; i++) {
+          obstacles[i].update();
+          
+          // Check for collisions
+          if (obstacles[i].collideWith(dino)) {
+            gameOver();
+            return;
+          }
+          
+          // Remove obstacles that are off screen
+          if (obstacles[i].x + obstacles[i].width < 0) {
+            obstacles.splice(i, 1);
+            i--;
+            
+            // Increase score when obstacle passes
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            
+            // Increase game speed every 10 points
+            if (score % 10 === 0) {
+              gameSpeed += 0.5;
+            }
+          }
+        }
+        
+        // Continue game loop if active
+        if (gameActive) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      // Game over function
+      function gameOver() {
+        gameActive = false;
+        finalScoreDisplay.textContent = score;
+        gameOverScreen.style.display = 'flex';
+      }
+
+      // Start game function
+      function startGame() {
+        // Reset game state
+        gameActive = true;
+        gamePaused = false;
+        score = 0;
+        frames = 0;
+        groundPosition = 0;
+        obstacles = [];
+        gameSpeed = 5;
+        
+        // Initialize dino's position
+        dino.init();
+        dino.isJumping = false;
+        dino.isDucking = false;
+        dino.dy = 0;
+        
+        // Update displays
+        scoreDisplay.textContent = `Score: ${score}`;
+        
+        // Hide start screen
+        startScreen.style.display = 'none';
+        gameOverScreen.style.display = 'none';
+        
+        // Start game loop
+        update();
+      }
+
+      // Restart game function
+      function restartGame() {
+        startGame();
+      }
+
+      // Event listeners
+      document.addEventListener('keydown', (e) => {
+        // Space bar to start game or jump
+        if (e.code === 'Space') {
+          e.preventDefault();
+          if (!gameActive && startScreen.style.display !== 'none') {
+            startGame();
+          } else if (!gameActive && gameOverScreen.style.display !== 'none') {
+            restartGame();
+          } else if (gameActive && !gamePaused) {
+            dino.jump();
+          }
+        }
+        
+        if (!gameActive || gamePaused) return;
+        
+        // Up arrow for jump
+        if (e.code === 'ArrowUp') {
+          e.preventDefault();
+          dino.jump();
+        }
+        
+        // Down arrow for ducking
+        if (e.code === 'ArrowDown') {
+          e.preventDefault();
+          dino.duck();
+        }
+      });
+
+      document.addEventListener('keyup', (e) => {
+        if (!gameActive || gamePaused) return;
+        
+        // Release down arrow to stand up
+        if (e.code === 'ArrowDown') {
+          e.preventDefault();
+          dino.standUp();
+        }
+      });
+
+      // Button event listeners
+      restartBtn.addEventListener('click', restartGame);
+
+      // Prevent default behavior for arrow keys and space
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
     }
   </script>
 </body>
 </html>
-
